@@ -83,9 +83,9 @@ color:#555;
 <input id="phone" type="tel" placeholder="Your Phone Number">
 
 <select id="network">
-<option>MTN</option>
-<option>Telecel</option>
-<option>AirtelTigo</option>
+<option value="MTN">MTN</option>
+<option value="Telecel">Telecel</option>
+<option value="AirtelTigo">AirtelTigo</option>
 </select>
 
 <select id="bundle">
@@ -139,42 +139,6 @@ color:#555;
 <p>Contact Maverick Data Hub</p>
 <p>Fast delivery. Reliable service. ✅</p>
 </div>
-
-<script>
-function placeOrder(){
-
-const order = {
-name: document.getElementById("name").value,
-phone: document.getElementById("phone").value,
-network: document.getElementById("network").value,
-amount: document.getElementById("bundle").value,
-status: "Pending"
-};
-
-if(order.name==="" || order.phone===""){
-alert("Please enter your name and phone number.");
-return;
-}
-
-fetch("/order",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify(order)
-})
-.then(response=>response.text())
-.then(()=>{
-alert("Order placed successfully ✅");
-document.getElementById("name").value="";
-document.getElementById("phone").value="";
-})
-.catch(()=>{
-alert("Failed to place order.");
-});
-
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>

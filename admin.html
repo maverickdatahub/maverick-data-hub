@@ -1,123 +1,442 @@
-<script>
+<!DOCTYPE html>
+<html>
+<head>
 
-const SUPABASE_URL = "https://vkylgfklycpeemgwjnwn.supabase.co";
+<title>Maverick Data Hub Admin</title>
 
-const SUPABASE_KEY = "sb_publishable_w83Ndm_xtI_A9O11GEhK-w__TXMWyEk";
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+x
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
+    padding:20px;
+}
+
+h1{
+    background:#0066ff;
+    color:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+    box-shadow:0 2px 5px #ccc;
+}
+
+.order{
+    border-left:5px solid #0066ff;
+    margin-bottom:15px;
+    padding:15px;
+}
+
+.completed{
+    display:inline-block;
+    background:#28a745;
+    color:#fff;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.pending{
+    display:inline-block;
+    background:#ff9800;
+    color:#fff;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+.pending{
+    display:inline-block;
+    background:#ff9800;
+    color:#fff;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+.order h3{
+    margin-top:0;
+}
+
+.order button{
+    padding:8px 12px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🔥 Maverick Data Hub Admin 🔥</h1>
+<button onclick="loadOrders()">🔄 Refresh Orders</button>
+<button onclick="logout()">🔒 Logout</button>
+<button onclick="downloadReport()">📄 Download Report</button>
+<br><br>
+
+<input
+<select id="networkFilter"
+onchange="loadOrders()"
+style="width:90%;padding:10px;border-radius:8px;margin-bottom:15px;">
+<option value="">All Networks</option>
+<option value="MTN">MTN</option>
+<option value="Telecel">Telecel</option>
+<option value="AirtelTigo">AirtelTigo</option>
+</select>
 
 
-fetch(SUPABASE_URL + "/rest/v1/orders?select=*",
-{
-  headers:{
-    "apikey": SUPABASE_KEY,
-    "Authorization": "Bearer " + SUPABASE_KEY
-  }
-})
-
-.then(response => response.json())
-
-.then(orders => {
-
-let output = "";
-
-if(orders.length === 0){
-
-output = "No orders yet";
-
-}else{
-
-orders.forEach(order => {
-
-output += `
+<input 
+id="search" 
+type="text" 
+placeholder="🔍 Search by name or phone..." 
+onkeyup="loadOrders()"
+style="width:90%;padding:10px;border-radius:8px;margin-bottom:15px;">
+<div class="card">
+<h3>Dashboard Statistics</h3>
+<div class="dashboard">
 
 <div class="card">
+<h3>📦 Total Orders</h3>
+<h2 id="totalOrders">0</h2>
+</div>
 
-<h3>Order Found ✅</h3>
+<div class="card">
+<h3>⏳ Pending</h3>
+<h2 id="pendingOrders">0</h2>
+</div>
 
-<p>👤 Name: ${order.name}</p>
+<div class="card">
+<h3>✅ Completed</h3>
+<h2 id="completedOrders">0</h2>
+</div>
+
+<div class="card">
+<h3>💰 Sales</h3>
+<h2>GH₵<span id="totalSales">0</span></h2>
+</div>
+
+<div class="card">
+<h3>📅 Today</h3>
+<h2 id="todayOrders">0</h2>
+</div>
+
+<div class="card">
+<h3>📆 This Week</h3>
+<h2 id="weekOrders">0</h2>
+</div>
+
+<div class="card">
+<h3>🗓️ This Month</h3>
+<h2 id="monthOrders">0</h2>
+</div>
+
+</div>
+
+<h2>Customer Orders</h2>
+
+<div id="orders">
+Loading orders...
+</div>
+
+<style>
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 3px 10px #ccc;
+text-align:center;
+}
+
+</style>
+
+<script>
+if(localStorage.getItem("admin")!="true"){
+window.location="login.html";
+}
+
+const SUPABASE_URL = "https://vkylgfklycpeemgwjnwn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_w83Ndm_xtI_A9O11GEhK-w__TXMWyEk";
+
+async function loadOrders(){
+console.log("Loading started");
+console.log("Fetching orders...");
+alert("Loading orders...");
+const response = await fetch(
+SUPABASE_URL + "/rest/v1/orders?select=*",
+{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+);
+if(!response.ok){
+    console.log("Supabase Error:", response.status);
+    return;
+}
+const orders = await response.json();
+const search = document.getElementById("search").value.toLowerCase();
+console.log("Orders:", orders);
+console.log("Orders received:", orders);
+console.log(orders);
+
+let html="";
+let ordersData = orders;
+
+let total=0;
+let pending=0;
+let completed=0;
+let sales=0;
+let today=0;
+let week=0;
+let month=0;
+
+ordersData.forEach(order=>{
+console.log("NETWORK:", order.network);
+let orderDate = new Date(order.created_at);
+let now = new Date();
+
+let todayDate = now.toDateString();
+
+if(orderDate.toDateString() == todayDate){
+today++;
+}
+
+let weekAgo = new Date();
+weekAgo.setDate(now.getDate()-7);
+
+if(orderDate >= weekAgo){
+week++;
+}
+
+if(
+orderDate.getMonth()==now.getMonth() &&
+orderDate.getFullYear()==now.getFullYear()
+){
+    month++;
+}
+
+const networkFilter = "";
+const name = (order.name || "").toLowerCase();
+const phone = (order.phone || "").toLowerCase();
+
+if(
+(search &&
+!name.includes(search) &&
+!phone.includes(search))
+||
+(networkFilter &&
+(order.network || "").trim() != networkFilter)
+){
+return;
+}
+
+total++;
+
+
+if(order.status=="Pending"){
+pending++;
+}
+
+if(order.status=="Completed"){
+completed++;
+}
+
+
+sales += Number(order.price || 6.50);
+
+
+html += `
+
+<div class="card order">
+
+<h3>${order.name}</h3>
 
 <p>📱 Phone: ${order.phone}</p>
 
-<p>🌐 Network: ${order.network}</p>
+<p>📡 Network: ${order.network || "N/A"}</p>
 
-<p>📦 Package: ${order.amount}</p>
+<p>📶 Bundle: ${order.bundle || order.amount || "N/A"}</p>
 
-<p>⏳ Status: ${order.status}</p>
+<p>💰 Price: GH₵${order.price || "6.50"}</p>
 
+<p>
+Status:
+<span class="${order.status == 'Completed' ? 'completed' : 'pending'}">
+${order.status}
+</span>
+</p>
+${order.status=="Pending" ? `<button onclick="updateStatus(${order.id})">✅ Mark Completed</button>` : ""}
+
+<button onclick="printReceipt(${order.id})">🧾 Receipt</button>
+
+<button onclick="deleteOrder(${order.id})">🗑️ Delete</button>
 </div>
 
 `;
 
 });
 
+
+document.getElementById("orders").innerHTML=html;
+
+
+document.getElementById("totalOrders").innerHTML=total;
+document.getElementById("pendingOrders").innerHTML=pending;
+document.getElementById("completedOrders").innerHTML=completed;
+document.getElementById("totalSales").innerHTML=sales;
+document.getElementById("todayOrders").innerHTML=today;
+document.getElementById("weekOrders").innerHTML=week;
+document.getElementById("monthOrders").innerHTML=month;
 }
 
-document.getElementById("orders").innerHTML = output;
+async function updateStatus(id){
 
-})
-
-.catch(error => {
-
-document.getElementById("orders").innerHTML =
-"Error loading orders";
-
-console.log(error);
-
-});
-
-</script>
-
-const SUPABASE_URL = "https://vkylgfklycpeemgwjnwn.supabase.co";
-
-const SUPABASE_KEY = sb_publishable_w83Ndm_xtI_A9O11GEhK-w__TXMWyEk
-
-
-fetch(SUPABASE_URL + "/rest/v1/orders?select=*",
+let response = await fetch(
+SUPABASE_URL + "/rest/v1/orders?id=eq." + id,
 {
+method:"PATCH",
 headers:{
-"apikey": SUPABASE_KEY,
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY,
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+status:"Completed"
+})
+}
+);
+
+if(response.ok){
+alert("Order marked completed ✅");
+loadOrders();
+}else{
+alert("Update failed ❌");
+}
+
+}
+
+loadOrders();
+async function deleteOrder(id){
+
+let confirmDelete = confirm("Delete this order?");
+
+if(!confirmDelete){
+return;
+}
+
+let response = await fetch(
+SUPABASE_URL + "/rest/v1/orders?id=eq." + id,
+{
+method:"DELETE",
+headers:{
+"apikey":SUPABASE_KEY,
 "Authorization":"Bearer "+SUPABASE_KEY
 }
-})
+}
+);
 
-.then(response => response.json())
+if(response.ok){
+alert("Order deleted 🗑️");
+loadOrders();
+}else{
+alert("Delete failed ❌");
+}
 
-.then(orders => {
+}
+function logout(){
+    localStorage.removeItem("admin");
+    window.location = "login.html";
+}
+function downloadReport(){
 
-let box = document.getElementById("orders");
+let csv = "Name,Phone,Network,Bundle,Price,Status,Date\n";
 
-box.innerHTML = "";
+fetch(
+SUPABASE_URL + "/rest/v1/orders?select=*",
+{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+)
+.then(response=>response.json())
+.then(orders=>{
 
-orders.forEach(order => {
+orders.forEach(order=>{
 
-box.innerHTML += `
+csv += `${order.name},${order.phone},${order.network || "N/A"},${order.bundle || order.amount || "N/A"},GH₵${order.price || "6.50"},${order.status},${order.created_at}\n`;
 
-<div class="card">
+});
 
-<h3>Order Found ✅</h3>
 
-<p>👤 Name: ${order.name}</p>
+let blob = new Blob([csv], {type:"text/csv"});
 
-<p>📱 Network: ${order.network}</p>
+let url = URL.createObjectURL(blob);
 
-<p>📦 Package: ${order.amount}</p>
+let a=document.createElement("a");
 
-<p>☎️ Phone: ${order.phone}</p>
+a.href=url;
 
-<p class="pending">⏳ Status: ${order.status}</p>
+a.download="maverick-orders-report.csv";
 
-</div>
+a.click();
 
+});
+
+}
+function printReceipt(id){
+
+fetch(
+SUPABASE_URL + "/rest/v1/orders?id=eq."+id,
+{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+)
+.then(res=>res.json())
+.then(data=>{
+
+let order=data[0];
+
+let receipt=`
+🔥 Maverick Data Hub 🔥
+
+Customer: ${order.name}
+Phone: ${order.phone}
+Network: ${order.network || "N/A"}
+Bundle: ${order.bundle || order.amount || "N/A"}
+Price: GH₵${order.price || "6.50"}
+Status: ${order.status}
+Date: ${order.created_at}
+
+Thank you for your order 🙏🏾
 `;
 
-});
+let win=window.open("");
 
-})
+win.document.write("<pre>"+receipt+"</pre>");
 
-.catch(error => {
-
-document.getElementById("orders").innerHTML =
-"Error loading orders";
+win.print();
 
 });
+
+}
 
 </script>
+</body>
+</html>
