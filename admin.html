@@ -2,38 +2,80 @@
 <html>
 <head>
 
+<script>
+if(localStorage.getItem("admin")!="true"){
+window.location="login.html";
+}
+</script>
 <title>Maverick Data Hub Admin</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-x
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 body{
     font-family: Arial, sans-serif;
-    background:#f5f5f5;
+    background:#121212;
+    color:white;
     padding:20px;
 }
 
 h1{
-    background:#0066ff;
-    color:white;
-    padding:20px;
-    border-radius:10px;
+background:linear-gradient(135deg,#0066ff,#00c6ff);
+color:white;
+padding:20px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 4px 15px rgba(0,0,0,0.2);
+
 }
 
 .card{
-    background:white;
     padding:15px;
     margin:10px 0;
+    background:#1e1e1e;
     border-radius:10px;
     box-shadow:0 2px 5px #ccc;
 }
 
 .order{
-    border-left:5px solid #0066ff;
+    background:#1e1e1e;
+    border-left:5px solid #607d8b;
     margin-bottom:15px;
-    padding:15px;
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.3);
+}
+
+.order:hover{
+    transform:translateY(-3px);
+    transition:0.3s;
+}
+
+.order h3{
+    color:#00c6ff;
+    margin-top:0;
+}
+
+.order p{
+    margin:8px 0;
+    font-size:15px;
+}
+
+.order button{
+    color:white;
+    padding:8px 14px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+}
+
+}
+
+.order button:hover{
+    opacity:0.8;
 }
 
 .completed{
@@ -72,6 +114,242 @@ h1{
     border-radius:8px;
     cursor:pointer;
 }
+.total{
+border-left:5px solid #17a2b8;
+}
+
+.pending-card{
+border-left:5px solid #ff9800;
+}
+
+.completed-card{
+border-left:5px solid #28a745;
+}
+
+.sales-card{
+border-left:5px solid #9c27b0;
+}
+
+.today-card{
+border-left:5px solid #03a9f4 !important;
+}
+
+.mtn-card{
+border-left:5px solid #ffc107 !important;
+}
+
+.telecel-card{
+border-left:5px solid #e53935 !important;
+}
+
+.airtel-card{
+border-left:5px solid #e53935 !important;
+}
+
+.mtn-sales-card{
+border-left:5px solid #ffc107 !important;
+}
+
+.telecel-sales-card{
+border-left:5px solid #e53935 !important;
+}
+
+.airtel-sales-card{
+border-left:5px solid ##e53935 !important;
+}
+
+.week-card{
+border-left:5px solid #673ab7 !important;
+}
+
+.month-card{
+border-left:5px solid #009688 !important;
+}
+
+.customers-card{
+border-left:5px solid #795548 !important;
+}
+
+.repeat-card{
+border-left:5px solid #ff5722 !important;
+}
+
+.bundle-card{
+    border-left:5px solid #ff9800 !important;
+}
+
+.network-chart-card{
+    border-left:5px solid #3f51b5 !important;
+}
+
+.daily-chart-card{
+    border-left:5px solid #009688 !important;
+}
+
+.bundle-card canvas,
+.network-chart-card canvas,
+.daily-chart-card canvas{
+    margin-top:15px;
+}
+
+.total{
+border-left:5px solid #17a2b8 !important;
+}
+
+.pending-card{
+border-left:5px solid #ff9800 !important;
+}
+
+.completed-card{
+border-left:5px solid #28a745 !important;
+}
+
+.sales-card{
+border-left:5px solid #9c27b0 !important;
+}
+
+.dashboard .card h3{
+font-size:16px;
+}
+
+.dashboard .card h2{
+font-size:32px;
+font-weight:bold;
+}
+
+.dashboard .card{
+    transition:0.3s;
+ 
+}
+
+.dashboard .card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+.dashboard .card h3{
+    margin-bottom:10px;
+}
+
+.dashboard .card h2{
+    margin:0;
+}
+
+.top-buttons{
+    text-align:center;
+    margin:15px 0;
+}
+
+.top-buttons button{
+    background:#0066ff;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    margin:5px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.top-buttons button:hover{
+    opacity:0.8;
+    transform:scale(1.05);
+}
+
+.top-buttons .logout{
+    background:#dc3545;
+}
+
+.top-buttons .download{
+    background:#28a745;
+}
+.filter-buttons{
+    text-align:center;
+    margin:15px 0;
+}
+
+.filter-buttons button{
+    background:#333;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    margin:5px;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.filter-buttons button:hover{
+    background:#0066ff;
+}
+.search-area{
+    margin:15px 0;
+    text-align:center;
+}
+
+.search-area input,
+.search-area select{
+    width:90%;
+    padding:12px;
+    margin-bottom:12px;
+    border-radius:10px;
+    border:none;
+    background:#1e1e1e;
+    color:white;
+    font-size:15px;
+}
+
+.search-area input::placeholder{
+    color:#aaa;
+}
+
+.complete-btn{
+    background:#28a745 !important;
+    color:white;
+}
+
+.receipt-btn{
+    background:#0066ff !important;
+    color:white;
+}
+
+.contact-btn{
+    background:#25D366 !important;
+    color:white;
+    display:block !important;
+    width:100% !important;
+    margin-bottom:10px !important;
+}
+
+.delete-btn{
+    background:#dc3545 !important;
+    color:white;
+    display:block !important;
+    width:100% !important;
+    margin-top:10px !important;
+}
+
+.network{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.network.MTN{
+    background:#ffc107;
+    color:black;
+}
+
+.network.Telecel{
+    background:#e53935;
+    color:white;
+}
+
+.network.AirtelTigo{
+    background:#1976d2;
+    color:white;
+}
+
 </style>
 
 </head>
@@ -79,10 +357,13 @@ h1{
 <body>
 
 <h1>🔥 Maverick Data Hub Admin 🔥</h1>
+<div class="top-buttons">
+
 <button onclick="loadOrders()">🔄 Refresh Orders</button>
-<button onclick="logout()">🔒 Logout</button>
-<button onclick="downloadReport()">📄 Download Report</button>
-<br><br>
+<button class="logout" onclick="logout()">🔒 Logout</button>
+<button class="download" onclick="downloadReport()">📄 Download Report</button>
+
+</div>
 
 <input
 <select id="networkFilter"
@@ -94,55 +375,165 @@ style="width:90%;padding:10px;border-radius:8px;margin-bottom:15px;">
 <option value="AirtelTigo">AirtelTigo</option>
 </select>
 
+<div class="search-area">
 
-<input 
-id="search" 
-type="text" 
-placeholder="🔍 Search by name or phone..." 
+<select id="networkFilter" onchange="loadOrders()">
+<option value="">All Networks</option>
+<option value="MTN">MTN</option>
+<option value="Telecel">Telecel</option>
+<option value="AirtelTigo">AirtelTigo</option>
+</select>
+
+<input
+id="search"
+type="text"
+placeholder="🔍 Search by name or phone..."
 onkeyup="loadOrders()"
-style="width:90%;padding:10px;border-radius:8px;margin-bottom:15px;">
+>
+
+</div>
+
+<div class="filter-buttons">
+
+<button onclick="loadOrders('today')">📅 Today</button>
+<button onclick="loadOrders('week')">📆 This Week</button>
+<button onclick="loadOrders('month')">🗓️ This Month</button>
+<button onclick="loadOrders('all')">🌍 All</button>
+
+</div>
+
 <div class="card">
 <h3>Dashboard Statistics</h3>
 <div class="dashboard">
 
-<div class="card">
+<div class="card total">
 <h3>📦 Total Orders</h3>
 <h2 id="totalOrders">0</h2>
 </div>
 
-<div class="card">
+<div class="card pending-card">
 <h3>⏳ Pending</h3>
 <h2 id="pendingOrders">0</h2>
 </div>
 
-<div class="card">
+<div class="card completed-card">
 <h3>✅ Completed</h3>
 <h2 id="completedOrders">0</h2>
 </div>
 
-<div class="card">
+<div class="card sales-card">
 <h3>💰 Sales</h3>
 <h2>GH₵<span id="totalSales">0</span></h2>
 </div>
 
-<div class="card">
+<div class="card today-card">
 <h3>📅 Today</h3>
 <h2 id="todayOrders">0</h2>
 </div>
 
-<div class="card">
+<div class="card mtn-card">
+<h3>📱 MTN</h3>
+<h2 id="mtnOrders">0</h2>
+</div>
+
+<div class="card telecel-card">
+<h3>📱 Telecel</h3>
+<h2 id="telecelOrders">0</h2>
+</div>
+
+<div class="card airtel-card">
+<h3>📱 AirtelTigo</h3>
+<h2 id="airtelOrders">0</h2>
+</div>
+
+<div class="card mtn-sales-card">
+<h3>💰 MTN Sales</h3>
+<h2>GH₵<span id="mtnSales">0</span></h2>
+</div>
+
+<div class="card telecel-sales-card">
+<h3>💰 Telecel Sales</h3>
+<h2>GH₵<span id="telecelSales">0</span></h2>
+</div>
+
+<div class="card airtel-sales-card">
+<h3>💰 AirtelTigo Sales</h3>
+<h2>GH₵<span id="airtelSales">0</span></h2>
+</div>
+
+<div class="card week-card">
 <h3>📆 This Week</h3>
 <h2 id="weekOrders">0</h2>
 </div>
 
-<div class="card">
+<div class="card month-card">
 <h3>🗓️ This Month</h3>
 <h2 id="monthOrders">0</h2>
 </div>
 
+<div class="dashboard">
+
+<div class="card total">
+<h3>📦 Total Orders</h3>
+<h2 id="totalOrders">0</h2>
 </div>
 
+<div class="card pending-card">
+<h3>⏳ Pending</h3>
+<h2 id="pendingOrders">0</h2>
+</div>
+
+<div class="card completed-card">
+<h3>✅ Completed</h3>
+<h2 id="completedOrders">0</h2>
+</div>
+
+<div class="card sales-card">
+<h3>💰 Sales</h3>
+<h2 id="sales">GH₵0</h2>
+</div>
+
+</div>
+
+
 <h2>Customer Orders</h2>
+
+<div class="card network-chart-card">
+
+<h2>📊 Network Sales Chart</h2>
+
+<canvas id="salesChart"></canvas>
+
+</div>
+
+<div class="card daily-chart-card">
+
+<h2>📈 Daily Sales</h2>
+
+<canvas id="dailyChart" height="150"></canvas>
+
+</div>
+
+<h2>👥 Customer Analytics</h2>
+
+<div class="card customers-card">
+<h3>Total Customers</h3>
+<h2 id="totalCustomers">0</h2>
+</div>
+
+<div class="card repeat-card">
+<h3>Repeat Customers</h3>
+<h2 id="repeatCustomers">0</h2>
+</div>
+
+<div class="card bundle-card">
+
+<h2>🏆 Best Selling Bundles</h2>
+
+<canvas id="bundleChart" height="150"></canvas>
+
+</div>
+
 
 <div id="orders">
 Loading orders...
@@ -150,12 +541,66 @@ Loading orders...
 
 <style>
 
-.card{
-background:white;
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+}
+
+.dashboard .card{
+background:#1e1e1e;
 padding:20px;
 border-radius:15px;
-box-shadow:0 3px 10px #ccc;
 text-align:center;
+box-shadow:0 3px 10px rgba(0,0,0,0.3);
+}
+
+.dashboard h2{
+font-size:32px;
+margin:10px 0;
+}
+@media(max-width:600px){
+
+body{
+    padding:10px;
+}
+
+h1{
+    font-size:22px;
+    padding:15px;
+}
+
+.dashboard{
+    grid-template-columns:1fr;
+}
+
+.dashboard .card{
+    padding:15px;
+}
+
+.order{
+    padding:12px;
+}
+
+.order button{
+    width:100%;
+    margin:5px 0;
+}
+
+.network{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.network{
+    display:inline-block;
+    padding:5px 12px;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:14px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
 }
 
 </style>
@@ -168,10 +613,9 @@ window.location="login.html";
 const SUPABASE_URL = "https://vkylgfklycpeemgwjnwn.supabase.co";
 const SUPABASE_KEY = "sb_publishable_w83Ndm_xtI_A9O11GEhK-w__TXMWyEk";
 
-async function loadOrders(){
+async function loadOrders(filter="all"){
 console.log("Loading started");
 console.log("Fetching orders...");
-alert("Loading orders...");
 const response = await fetch(
 SUPABASE_URL + "/rest/v1/orders?select=*",
 {
@@ -185,7 +629,68 @@ if(!response.ok){
     console.log("Supabase Error:", response.status);
     return;
 }
-const orders = await response.json();
+let orders = await response.json();
+
+// New order notification
+let oldOrderCount = localStorage.getItem("orderCount");
+
+if(oldOrderCount && orders.length > Number(oldOrderCount)){
+
+let newOrder = orders.sort((a,b) => 
+new Date(b.created_at) - new Date(a.created_at)
+)[0];
+
+alert(
+"🔔 New Order Received!\n\n" +
+"👤 Customer: " + newOrder.name + "\n" +
+"📱 Phone: " + newOrder.phone + "\n" +
+"📡 Network: " + newOrder.network + "\n" +
+"📦 Bundle: " + (newOrder.bundle || newOrder.amount) + "\n" +
+"💰 Price: GH₵" + newOrder.price
+);
+
+}
+
+localStorage.setItem("orderCount", orders.length);
+
+if(filter=="today"){
+orders = orders.filter(order =>
+new Date(order.created_at).toDateString() == new Date().toDateString()
+);
+}
+
+if(filter=="week"){
+let weekAgo = new Date();
+weekAgo.setDate(new Date().getDate()-7);
+
+orders = orders.filter(order =>
+new Date(order.created_at) >= weekAgo
+);
+}
+
+if(filter=="month"){
+let now = new Date();
+
+orders = orders.filter(order =>{
+let d = new Date(order.created_at);
+return d.getMonth()==now.getMonth() &&
+d.getFullYear()==now.getFullYear();
+});
+}
+
+if(orders.length > 0){
+let latest = orders[0];
+
+alert(
+"🔔 New Order Received!\n\n" +
+"👤 Customer: " + latest.name + "\n" +
+"📱 Phone: " + latest.phone + "\n" +
+"📡 Network: " + latest.network + "\n" +
+"📦 Bundle: " + latest.bundle + "\n" +
+"💰 Price: GH₵" + latest.price
+);
+}
+
 const search = document.getElementById("search").value.toLowerCase();
 console.log("Orders:", orders);
 console.log("Orders received:", orders);
@@ -198,18 +703,31 @@ let total=0;
 let pending=0;
 let completed=0;
 let sales=0;
+let mtn=0;
+let telecel=0;
+let airtel=0;
+
+let mtnSales=0;
+let telecelSales=0;
+let airtelSales=0;
+
 let today=0;
 let week=0;
 let month=0;
+let customers = {};
+let repeatCustomers = 0;
 
 ordersData.forEach(order=>{
 console.log("NETWORK:", order.network);
+const network = (order.network || "").trim();
 let orderDate = new Date(order.created_at);
 let now = new Date();
 
 let todayDate = now.toDateString();
 
 if(orderDate.toDateString() == todayDate){
+customers[order.phone] = (customers[order.phone] || 0) + 1;
+
 today++;
 }
 
@@ -244,6 +762,17 @@ return;
 
 total++;
 
+if(network=="MTN"){
+mtn++;
+}
+
+if(network=="Telecel"){
+telecel++;
+}
+
+if(network=="AirtelTigo"){
+airtel++;
+}
 
 if(order.status=="Pending"){
 pending++;
@@ -254,7 +783,21 @@ completed++;
 }
 
 
-sales += Number(order.price || 6.50);
+if(order.status=="Completed"){
+    sales += Number(order.price || 0);
+
+if(network=="MTN"){
+mtnSales += Number(order.price || 0);
+}
+
+if(network=="Telecel"){
+telecelSales += Number(order.price || 0);
+}
+
+if(network=="AirtelTigo"){
+airtelSales += Number(order.price || 0);
+}
+}
 
 
 html += `
@@ -265,11 +808,15 @@ html += `
 
 <p>📱 Phone: ${order.phone}</p>
 
-<p>📡 Network: ${order.network || "N/A"}</p>
+<p>📡 Network:
+<span class="network ${order.network}">
+${order.network || "N/A"}
+</span>
+</p>
 
 <p>📶 Bundle: ${order.bundle || order.amount || "N/A"}</p>
 
-<p>💰 Price: GH₵${order.price || "6.50"}</p>
+<p>💰 Price: GH₵${order.price || "0"}</p>
 
 <p>
 Status:
@@ -277,20 +824,20 @@ Status:
 ${order.status}
 </span>
 </p>
-${order.status=="Pending" ? `<button onclick="updateStatus(${order.id})">✅ Mark Completed</button>` : ""}
+<button class="complete-btn" onclick="updateStatus(${order.id})">✅ Mark Completed</button>
 
-<button onclick="printReceipt(${order.id})">🧾 Receipt</button>
+<button class="receipt-btn" onclick="printReceipt(${order.id})">🧾 Receipt</button>
 
-<button onclick="deleteOrder(${order.id})">🗑️ Delete</button>
+<button class="contact-btn" onclick="contactCustomer('${order.phone}')">💬 Contact Customer</button>
+
+<button class="delete-btn" onclick="deleteOrder(${order.id})">🗑️ Delete</button>
 </div>
 
 `;
 
 });
 
-
 document.getElementById("orders").innerHTML=html;
-
 
 document.getElementById("totalOrders").innerHTML=total;
 document.getElementById("pendingOrders").innerHTML=pending;
@@ -299,9 +846,109 @@ document.getElementById("totalSales").innerHTML=sales;
 document.getElementById("todayOrders").innerHTML=today;
 document.getElementById("weekOrders").innerHTML=week;
 document.getElementById("monthOrders").innerHTML=month;
+
+document.getElementById("mtnSales").innerHTML=mtnSales;
+document.getElementById("telecelSales").innerHTML=telecelSales;
+document.getElementById("airtelSales").innerHTML=airtelSales;
+
+document.getElementById("mtnOrders").innerHTML=mtn;
+document.getElementById("telecelOrders").innerHTML=telecel;
+document.getElementById("airtelOrders").innerHTML=airtel;
+
+repeatCustomers = Object.values(customers).filter(c => c > 1).length;
+
+document.getElementById("totalCustomers").innerHTML = Object.keys(customers).length;
+document.getElementById("repeatCustomers").innerHTML = repeatCustomers;
+
+showChart();
+showDailyChart();
+showBundleChart();
+
+}
+
+function showChart(){
+
+function showDailyChart(){
+
+function showBundleChart(){
+
+let bundles = {};
+
+ordersData.forEach(order=>{
+
+let bundle = order.bundle || order.amount || "Unknown";
+
+if(bundles[bundle]){
+bundles[bundle]++;
+}else{
+bundles[bundle]=1;
+}
+
+});
+
+let ctx = document.getElementById("bundleChart").getContext("2d");
+
+new Chart(ctx,{
+type:"bar",
+data:{
+labels:Object.keys(bundles),
+datasets:[{
+label:"Orders",
+data:Object.values(bundles)
+}]
+}
+});
+
+}
+
+let ctx = document.getElementById("dailyChart").getContext("2d");
+
+new Chart(ctx,{
+type:"line",
+data:{
+labels:["Today"],
+datasets:[{
+label:"Daily Sales (GH₵)",
+data:[sales]
+}]
+}
+});
+
+}
+
+let ctx = document.getElementById("salesChart").getContext("2d");
+
+new Chart(ctx,{
+type:"bar",
+data:{
+labels:["MTN","Telecel","AirtelTigo"],
+datasets:[{
+label:"Sales (GH₵)",
+data:[mtnSales,telecelSales,airtelSales]
+}]
+}
+});
+
 }
 
 async function updateStatus(id){
+
+function showChart(){
+
+let ctx = document.getElementById("salesChart").getContext("2d");
+
+new Chart(ctx,{
+type:"bar",
+data:{
+labels:["MTN","Telecel","AirtelTigo"],
+datasets:[{
+label:"Sales (GH₵)",
+data:[mtnSales,telecelSales,airtelSales]
+}]
+}
+});
+
+}
 
 let response = await fetch(
 SUPABASE_URL + "/rest/v1/orders?id=eq." + id,
@@ -361,7 +1008,10 @@ function logout(){
 }
 function downloadReport(){
 
-let csv = "Name,Phone,Network,Bundle,Price,Status,Date\n";
+let csv =
+"🔥 Maverick Data Hub Report\n" +
+"Generated: " + new Date().toLocaleString() + "\n\n" +
+"Total Orders,Completed Orders,Pending Orders,Total Sales\n";
 
 fetch(
 SUPABASE_URL + "/rest/v1/orders?select=*",
@@ -374,25 +1024,82 @@ headers:{
 )
 .then(response=>response.json())
 .then(orders=>{
+let totalOrders = orders.length;
+
+let completedOrders = orders.filter(
+order => order.status=="Completed"
+).length;
+
+let pendingOrders = orders.filter(
+order => order.status=="Pending"
+).length;
+
+let totalSales = 0;
 
 orders.forEach(order=>{
+if(order.status=="Completed"){
+totalSales += Number(order.price || 0);
+}
+});
 
-csv += `${order.name},${order.phone},${order.network || "N/A"},${order.bundle || order.amount || "N/A"},GH₵${order.price || "6.50"},${order.status},${order.created_at}\n`;
+csv += `${totalOrders},${completedOrders},${pendingOrders},GH₵${totalSales}\n\n`;
+
+let mtnSalesReport = 0;
+let telecelSalesReport = 0;
+let airtelSalesReport = 0;
+
+orders.forEach(order=>{
+if(order.status=="Completed"){
+
+if(order.network=="MTN"){
+mtnSalesReport += Number(order.price || 0);
+}
+
+if(order.network=="Telecel"){
+telecelSalesReport += Number(order.price || 0);
+}
+
+if(order.network=="AirtelTigo"){
+airtelSalesReport += Number(order.price || 0);
+}
+
+}
+});
+
+csv += "\n🔥 Network Sales Breakdown 🔥\n\n";
+csv += "MTN Sales,Telecel Sales,AirtelTigo Sales\n";
+csv += `GH₵${mtnSalesReport},GH₵${telecelSalesReport},GH₵${airtelSalesReport}\n\n`;
+
+csv += "\n📋 Order List\n\n";
+
+csv += "Name,Phone,Network,Bundle,Price,Status,Date\n";
+orders.forEach(order=>{
+
+csv += `${order.name},${order.phone},${order.network || "N/A"},${order.bundle || order.amount || "N/A"},GH₵${order.price || "0"},${order.status},${order.created_at}\n`;
 
 });
 
 
-let blob = new Blob([csv], {type:"text/csv"});
+const { jsPDF } = window.jspdf;
 
-let url = URL.createObjectURL(blob);
+let doc = new jsPDF();
 
-let a=document.createElement("a");
+doc.setFontSize(16);
+doc.text("Maverick Data Hub Report", 10, 20);
 
-a.href=url;
+doc.setFontSize(12);
+doc.text("Generated: " + new Date().toLocaleString(), 10, 35);
 
-a.download="maverick-orders-report.csv";
+doc.text("Total Orders: " + totalOrders, 10, 50);
+doc.text("Completed Orders: " + completedOrders, 10, 65);
+doc.text("Pending Orders: " + pendingOrders, 10, 80);
+doc.text("Total Sales: GH₵" + totalSales, 10, 95);
 
-a.click();
+doc.text("MTN Sales: GHS " + mtnSalesReport, 10, 115);
+doc.text("Telecel Sales: GHS " + telecelSalesReport, 10, 130);
+doc.text("AirtelTigo Sales: GHS " + airtelSalesReport, 10, 145);
+
+doc.save("maverick-orders-report.pdf");
 
 });
 
@@ -420,7 +1127,7 @@ Customer: ${order.name}
 Phone: ${order.phone}
 Network: ${order.network || "N/A"}
 Bundle: ${order.bundle || order.amount || "N/A"}
-Price: GH₵${order.price || "6.50"}
+Price: GH₵${order.price || "0"}
 Status: ${order.status}
 Date: ${order.created_at}
 
@@ -436,7 +1143,26 @@ win.print();
 });
 
 }
+function contactCustomer(phone){
+
+let waPhone = phone;
+
+if(waPhone.startsWith("0")){
+waPhone = "233" + waPhone.substring(1);
+}
+
+window.location.href =
+"https://wa.me/" + waPhone;
+
+}
+
+// Auto refresh every 10 seconds
+setInterval(() => {
+    alert("Refreshing...");
+    loadOrders();
+}, 10000);
 
 </script>
 </body>
 </html>
+
