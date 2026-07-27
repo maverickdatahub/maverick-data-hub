@@ -855,10 +855,6 @@ showBundleChart();
 
 }
 
-function showChart(){
-
-function showDailyChart(){
-
 function showBundleChart(){
 
 let bundles = {};
@@ -890,6 +886,9 @@ data:Object.values(bundles)
 
 }
 
+
+function showDailyChart(){
+
 let ctx = document.getElementById("dailyChart").getContext("2d");
 
 new Chart(ctx,{
@@ -905,22 +904,6 @@ data:[sales]
 
 }
 
-let ctx = document.getElementById("salesChart").getContext("2d");
-
-new Chart(ctx,{
-type:"bar",
-data:{
-labels:["MTN","Telecel","AirtelTigo"],
-datasets:[{
-label:"Sales (GH₵)",
-data:[mtnSales,telecelSales,airtelSales]
-}]
-}
-});
-
-}
-
-async function updateStatus(id){
 
 function showChart(){
 
@@ -938,6 +921,8 @@ data:[mtnSales,telecelSales,airtelSales]
 });
 
 }
+
+async function updateStatus(id){
 
 let response = await fetch(
 SUPABASE_URL + "/rest/v1/orders?id=eq." + id,
