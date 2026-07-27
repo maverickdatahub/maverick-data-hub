@@ -819,6 +819,12 @@ ${order.status}
 
 <button class="contact-btn" onclick="contactCustomer('${order.phone}')">💬 Contact Customer</button>
 
+${order.proof ? `
+<a href="${order.proof}" target="_blank">
+<button class="proof-btn">📷 View Proof</button>
+</a>
+` : ""}
+
 <button class="delete-btn" onclick="deleteOrder(${order.id})">🗑️ Delete</button>
 </div>
 
