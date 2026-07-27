@@ -1,3 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script>
+if(localStorage.getItem("admin")!="true"){
+window.location="login.html";
+}
+</script>
+<title>Maverick Data Hub Admin</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#121212;
+    color:white;
+    padding:20px;
+}
+
+h1{
+background:linear-gradient(135deg,#0066ff,#00c6ff);
+color:white;
+padding:20px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 4px 15px rgba(0,0,0,0.2);
+
+}
+
+.card{
+    padding:15px;
+    margin:10px 0;
+    background:#1e1e1e;
+    border-radius:10px;
+    box-shadow:0 2px 5px #ccc;
+}
+
+.order{
+    background:#1e1e1e;
+    border-left:5px solid #607d8b;
+    margin-bottom:15px;
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.3);
+}
+
+.order:hover{
+    transform:translateY(-3px);
+    transition:0.3s;
+}
+
+.order h3{
+    color:#00c6ff;
+    margin-top:0;
+}
+
+.order p{
+    margin:8px 0;
+    font-size:15px;
+}
+
+.order button{
+    color:white;
+    padding:8px 14px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+}
+
+}
+
+.order button:hover{
+    opacity:0.8;
+}
+
+.completed{
+    display:inline-block;
+    background:#28a745;
+    color:#fff;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.pending{
+    display:inline-block;
+    background:#ff9800;
+    color:#fff;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+.pending{
+    display:inline-block;
+    background:#ff9800;
+    color:#fff;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+.order h3{
+    margin-top:0;
+}
+
+.order button{
+    padding:8px 12px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+.total{
+border-left:5px solid #17a2b8;
+}
+
+.pending-card{
+border-left:5px solid #ff9800;
+}
+
+.completed-card{
+border-left:5px solid #28a745;
+}
+
+.sales-card{
+border-left:5px solid #9c27b0;
+}
+
+.today-card{
+border-left:5px solid #03a9f4 !important;
+}
+
+.mtn-card{
+border-left:5px solid #ffc107 !important;
+}
+
+.telecel-card{
+border-left:5px solid #e53935 !important;
+}
+
+.airtel-card{
+border-left:5px solid #e53935 !important;
+}
+
+.mtn-sales-card{
+border-left:5px solid #ffc107 !important;
+}
+
+.telecel-sales-card{
+border-left:5px solid #e53935 !important;
+}
+
+.airtel-sales-card{
+border-left:5px solid ##e53935 !important;
+}
+
+.week-card{
+border-left:5px solid #673ab7 !important;
+}
+
+.month-card{
+border-left:5px solid #009688 !important;
+}
+
+.customers-card{
+border-left:5px solid #795548 !important;
+}
+
+.repeat-card{
+border-left:5px solid #ff5722 !important;
+}
+
+.bundle-card{
+    border-left:5px solid #ff9800 !important;
+}
+
+.network-chart-card{
+    border-left:5px solid #3f51b5 !important;
+}
+
+.daily-chart-card{
+    border-left:5px solid #009688 !important;
+}
+
+.bundle-card canvas,
+.network-chart-card canvas,
+.daily-chart-card canvas{
+    margin-top:15px;
+}
+
+.total{
+border-left:5px solid #17a2b8 !important;
+}
+
+.pending-card{
+border-left:5px solid #ff9800 !important;
+}
+
+.completed-card{
+border-left:5px solid #28a745 !important;
+}
+
+.sales-card{
+border-left:5px solid #9c27b0 !important;
+}
+
+.dashboard .card h3{
+font-size:16px;
+}
+
+.dashboard .card h2{
+font-size:32px;
+font-weight:bold;
+}
+
+.dashboard .card{
+    transition:0.3s;
+ 
+}
+
+.dashboard .card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+.dashboard .card h3{
+    margin-bottom:10px;
+}
+
+.dashboard .card h2{
+    margin:0;
+}
+
+.top-buttons{
+    text-align:center;
+    margin:15px 0;
+}
+
+.top-buttons button{
+    background:#0066ff;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    margin:5px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.top-buttons button:hover{
+    opacity:0.8;
+    transform:scale(1.05);
+}
+
+.top-buttons .logout{
+    background:#dc3545;
+}
+
+.top-buttons .download{
+    background:#28a745;
+}
+.filter-buttons{
+    text-align:center;
+    margin:15px 0;
+}
+
+.filter-buttons button{
+    background:#333;
+    color:white;
+    border:none;
+    padding:8px 14px;
+    margin:5px;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.filter-buttons button:hover{
+    background:#0066ff;
+}
+.search-area{
+    margin:15px 0;
+    text-align:center;
+}
+
+.search-area input,
+.search-area select{
+    width:90%;
+    padding:12px;
+    margin-bottom:12px;
+    border-radius:10px;
+    border:none;
+    background:#1e1e1e;
+    color:white;
+    font-size:15px;
+}
+
+.search-area input::placeholder{
+    color:#aaa;
+}
+
+.complete-btn{
+    background:#28a745 !important;
+    color:white;
+}
+
+.receipt-btn{
+    background:#0066ff !important;
+    color:white;
+}
+
+.contact-btn{
+    background:#25D366 !important;
+    color:white;
+    display:block !important;
+    width:100% !important;
+    margin-bottom:10px !important;
+}
+
+.delete-btn{
+    background:#dc3545 !important;
+    color:white;
+    display:block !important;
+    width:100% !important;
+    margin-top:10px !important;
+}
+
+.network{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
 }
 
 .network.MTN{
@@ -412,6 +747,46 @@ if(
 (order.network || "").trim() != networkFilter)
 ){
 return;
+}
+
+total++;
+
+if(network=="MTN"){
+mtn++;
+}
+
+if(network=="Telecel"){
+telecel++;
+}
+
+if(network=="AirtelTigo"){
+airtel++;
+}
+
+if(order.status=="Pending"){
+pending++;
+}
+
+if(order.status=="Completed"){
+completed++;
+}
+
+
+if(order.status=="Completed"){
+    sales += Number(order.price || 0);
+
+if(network=="MTN"){
+mtnSales += Number(order.price || 0);
+}
+
+if(network=="Telecel"){
+telecelSales += Number(order.price || 0);
+}
+
+if(network=="AirtelTigo"){
+airtelSales += Number(order.price || 0);
+}
+}
 
 
 html += `
@@ -461,15 +836,309 @@ document.getElementById("todayOrders").innerHTML=today;
 document.getElementById("weekOrders").innerHTML=week;
 document.getElementById("monthOrders").innerHTML=month;
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Maverick Data Hub Admin</title>
-</head>
+document.getElementById("mtnSales").innerHTML=mtnSales;
+document.getElementById("telecelSales").innerHTML=telecelSales;
+document.getElementById("airtelSales").innerHTML=airtelSales;
 
-<body>
-<h1>🔥 Maverick Data Hub Admin 🔥</h1>
-<p>Admin page is loading</p>
+document.getElementById("mtnOrders").innerHTML=mtn;
+document.getElementById("telecelOrders").innerHTML=telecel;
+document.getElementById("airtelOrders").innerHTML=airtel;
+
+repeatCustomers = Object.values(customers).filter(c => c > 1).length;
+
+document.getElementById("totalCustomers").innerHTML = Object.keys(customers).length;
+document.getElementById("repeatCustomers").innerHTML = repeatCustomers;
+
+showChart();
+showDailyChart();
+showBundleChart();
+
+}
+
+function showBundleChart(){
+
+let bundles = {};
+
+ordersData.forEach(order=>{
+
+let bundle = order.bundle || order.amount || "Unknown";
+
+if(bundles[bundle]){
+bundles[bundle]++;
+}else{
+bundles[bundle]=1;
+}
+
+});
+
+let ctx = document.getElementById("bundleChart").getContext("2d");
+
+new Chart(ctx,{
+type:"bar",
+data:{
+labels:Object.keys(bundles),
+datasets:[{
+label:"Orders",
+data:Object.values(bundles)
+}]
+}
+});
+
+}
+
+
+function showDailyChart(){
+
+let ctx = document.getElementById("dailyChart").getContext("2d");
+
+new Chart(ctx,{
+type:"line",
+data:{
+labels:["Today"],
+datasets:[{
+label:"Daily Sales (GH₵)",
+data:[sales]
+}]
+}
+});
+
+}
+
+
+function showChart(){
+
+let ctx = document.getElementById("salesChart").getContext("2d");
+
+new Chart(ctx,{
+type:"bar",
+data:{
+labels:["MTN","Telecel","AirtelTigo"],
+datasets:[{
+label:"Sales (GH₵)",
+data:[mtnSales,telecelSales,airtelSales]
+}]
+}
+});
+
+}
+
+async function updateStatus(id){
+
+let response = await fetch(
+SUPABASE_URL + "/rest/v1/orders?id=eq." + id,
+{
+method:"PATCH",
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY,
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+status:"Completed"
+})
+}
+);
+
+if(response.ok){
+alert("Order marked completed ✅");
+loadOrders();
+}else{
+alert("Update failed ❌");
+}
+
+}
+
+loadOrders();
+async function deleteOrder(id){
+
+let confirmDelete = confirm("Delete this order?");
+
+if(!confirmDelete){
+return;
+}
+
+let response = await fetch(
+SUPABASE_URL + "/rest/v1/orders?id=eq." + id,
+{
+method:"DELETE",
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+);
+
+if(response.ok){
+alert("Order deleted 🗑️");
+loadOrders();
+}else{
+alert("Delete failed ❌");
+}
+
+}
+function logout(){
+    localStorage.removeItem("admin");
+    window.location = "login.html";
+}
+function downloadReport(){
+
+let csv =
+"🔥 Maverick Data Hub Report\n" +
+"Generated: " + new Date().toLocaleString() + "\n\n" +
+"Total Orders,Completed Orders,Pending Orders,Total Sales\n";
+
+fetch(
+SUPABASE_URL + "/rest/v1/orders?select=*",
+{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+)
+.then(response=>response.json())
+.then(orders=>{
+let totalOrders = orders.length;
+
+let completedOrders = orders.filter(
+order => order.status=="Completed"
+).length;
+
+let pendingOrders = orders.filter(
+order => order.status=="Pending"
+).length;
+
+let totalSales = 0;
+
+orders.forEach(order=>{
+if(order.status=="Completed"){
+totalSales += Number(order.price || 0);
+}
+});
+
+csv += `${totalOrders},${completedOrders},${pendingOrders},GH₵${totalSales}\n\n`;
+
+let mtnSalesReport = 0;
+let telecelSalesReport = 0;
+let airtelSalesReport = 0;
+
+orders.forEach(order=>{
+if(order.status=="Completed"){
+
+if(order.network=="MTN"){
+mtnSalesReport += Number(order.price || 0);
+}
+
+if(order.network=="Telecel"){
+telecelSalesReport += Number(order.price || 0);
+}
+
+if(order.network=="AirtelTigo"){
+airtelSalesReport += Number(order.price || 0);
+}
+
+}
+});
+
+csv += "\n🔥 Network Sales Breakdown 🔥\n\n";
+csv += "MTN Sales,Telecel Sales,AirtelTigo Sales\n";
+csv += `GH₵${mtnSalesReport},GH₵${telecelSalesReport},GH₵${airtelSalesReport}\n\n`;
+
+csv += "\n📋 Order List\n\n";
+
+csv += "Name,Phone,Network,Bundle,Price,Status,Date\n";
+orders.forEach(order=>{
+
+csv += `${order.name},${order.phone},${order.network || "N/A"},${order.bundle || order.amount || "N/A"},GH₵${order.price || "0"},${order.status},${order.created_at}\n`;
+
+});
+
+
+const { jsPDF } = window.jspdf;
+
+let doc = new jsPDF();
+
+doc.setFontSize(16);
+doc.text("Maverick Data Hub Report", 10, 20);
+
+doc.setFontSize(12);
+doc.text("Generated: " + new Date().toLocaleString(), 10, 35);
+
+doc.text("Total Orders: " + totalOrders, 10, 50);
+doc.text("Completed Orders: " + completedOrders, 10, 65);
+doc.text("Pending Orders: " + pendingOrders, 10, 80);
+doc.text("Total Sales: GH₵" + totalSales, 10, 95);
+
+doc.text("MTN Sales: GHS " + mtnSalesReport, 10, 115);
+doc.text("Telecel Sales: GHS " + telecelSalesReport, 10, 130);
+doc.text("AirtelTigo Sales: GHS " + airtelSalesReport, 10, 145);
+
+doc.save("maverick-orders-report.pdf");
+
+});
+
+}
+function printReceipt(id){
+
+fetch(
+SUPABASE_URL + "/rest/v1/orders?id=eq."+id,
+{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+)
+.then(res=>res.json())
+.then(data=>{
+
+let order=data[0];
+
+let receipt=`
+🔥 Maverick Data Hub 🔥
+
+Customer: ${order.name}
+Phone: ${order.phone}
+Network: ${order.network || "N/A"}
+Bundle: ${order.bundle || order.amount || "N/A"}
+Price: GH₵${order.price || "0"}
+Status: ${order.status}
+Date: ${order.created_at}
+
+Thank you for your order 🙏🏾
+`;
+
+let win=window.open("");
+
+win.document.write("<pre>"+receipt+"</pre>");
+
+win.print();
+
+});
+
+}
+function contactCustomer(phone){
+
+let waPhone = phone;
+
+if(waPhone.startsWith("0")){
+waPhone = "233" + waPhone.substring(1);
+}
+
+window.location.href =
+"https://wa.me/" + waPhone;
+
+}
+
+// Auto refresh every 10 seconds
+setInterval(() => {
+    alert("Refreshing...");
+    loadOrders();
+}, 10000);
+
+</script>
 </body>
-
 </html>
+
+<!-- update -->
+<!-- admin rebuild -->
