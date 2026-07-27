@@ -1,37 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maverick Data Hub</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#121212;
+margin:0;
+padding:20px;
+}
+
+.header{
+background:#0066ff;
+color:white;
+padding:20px;
+border-radius:15px;
+text-align:center;
+}
+
+.box{
+background:#1e1e1e;
+color:white;
+padding:20px;
+margin:20px auto;
+max-width:450px;
+border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #444;
+border-radius:8px;
+background:#2a2a2a;
+color:white;
+}
+
+input::placeholder{
+color:#aaa;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#0066ff;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#004bb5;
+}
+
+.network{
+font-weight:bold;
+margin-top:20px;
+}
+
+.footer{
+text-align:center;
+margin-top:30px;
+color:#555;
+}
+</style>
 </head>
 
 <body>
 
+<div class="header">
 <h1>🔥 Maverick Data Hub 🔥</h1>
+<p>Fast & Affordable Data Bundles in Ghana 🇬🇭</p>
+</div>
 
-<h2>Fast • Affordable • Reliable Data Bundles</h2>
+<div class="box">
 
-<div class="card">
-<h3>MTN Data Bundles</h3>
+<h2>Buy Data</h2>
 
+<input id="name" type="text" placeholder="Your Name">
+
+<input id="phone" type="tel" placeholder="Your Phone Number">
+
+<select id="network">
+<option value="MTN">MTN</option>
+<option value="Telecel">Telecel</option>
+<option value="AirtelTigo">AirtelTigo</option>
+</select>
+
+<select id="bundle">
+<option value="1GB - GH₵6.50">1GB - GH₵6.50</option>
+<option value="2GB - GH₵11.50">2GB - GH₵11.50</option>
+<option value="5GB - GH₵26.50">5GB - GH₵26.50</option>
+<option value="10GB - GH₵36.50">10GB - GH₵36.50</option>
+<option value="20GB - GH₵70.00">20GB - GH₵70.00</option>
+<option value="50GB - GH₵170.00">50GB - GH₵170.00</option>
+<option value="100GB - GH₵330.00">100GB - GH₵330.00</option>
+</select>
+
+<input type="file" id="proof">
+
+<button onclick="placeOrder()">Place Order</button>
+
+<h3>Payment Details</h3>
+
+<p><b>Name:</b> Afornyo Prosper</p>
+<p><b>MoMo Number:</b> 0546155096</p>
+
+</div>
+
+<div class="box">
+
+<h2>Available Data Bundles</h2>
+
+<p class="network">🟡 MTN</p>
 <p>1GB - GH₵6.50</p>
 <p>2GB - GH₵11.50</p>
 <p>5GB - GH₵26.50</p>
 <p>10GB - GH₵36.50</p>
-<p>100GB - GH₵330</p>
+<p>20GB - GH₵70.00</p>
+<p>50GB - GH₵170.00</p>
+<p>100GB - GH₵330.00</p>
+<p class="network">🔴 Telecel</p>
+<p>1GB - GH₵6.50</p>
+<p>5GB - GH₵26.50</p>
+
+<p class="network">🔵 AirtelTigo</p>
+<p>1GB - GH₵6.50</p>
+<p>5GB - GH₵26.50</p>
+
+</div><div class="box">
+
+<h2>How To Order</h2>
+
+<p>1. Select your bundle</p>
+<p>2. Send payment to the MoMo number above</p>
+<p>3. Upload your payment screenshot</p>
+<p>4. Click <b>Place Order</b></p>
 
 </div>
 
-<div class="card">
-<h3>Order Now</h3>
-
-<p>Click below to place your order:</p>
-
-<a href="index.html">
-<button>Place Order</button>
-</a>
-
+<div class="footer">
+<p>Contact Maverick Data Hub</p>
+<p>Fast delivery. Reliable service. ✅</p>
 </div>
-
+<script src="script.js?v=2"></script>
 </body>
 </html>
