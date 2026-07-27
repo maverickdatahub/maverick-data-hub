@@ -1,0 +1,475 @@
+}
+
+.network.MTN{
+    background:#ffc107;
+    color:black;
+}
+
+.network.Telecel{
+    background:#e53935;
+    color:white;
+}
+
+.network.AirtelTigo{
+    background:#1976d2;
+    color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🔥 Maverick Data Hub Admin 🔥</h1>
+<div class="top-buttons">
+
+<button onclick="loadOrders()">🔄 Refresh Orders</button>
+<button class="logout" onclick="logout()">🔒 Logout</button>
+<button class="download" onclick="downloadReport()">📄 Download Report</button>
+
+</div>
+
+<div class="search-area">
+<select id="networkFilter" onchange="loadOrders()">
+<option value="">All Networks</option>
+<option value="MTN">MTN</option>
+<option value="Telecel">Telecel</option>
+<option value="AirtelTigo">AirtelTigo</option>
+</select>
+
+<input
+id="search"
+type="text"
+placeholder="🔍 Search by name or phone..."
+onkeyup="loadOrders()"
+>
+
+</div>
+
+<div class="filter-buttons">
+
+<button onclick="loadOrders('today')">📅 Today</button>
+<button onclick="loadOrders('week')">📆 This Week</button>
+<button onclick="loadOrders('month')">🗓️ This Month</button>
+<button onclick="loadOrders('all')">🌍 All</button>
+
+</div>
+
+<div class="card">
+<h3>Dashboard Statistics</h3>
+<div class="dashboard">
+
+<div class="card total">
+<h3>📦 Total Orders</h3>
+<h2 id="totalOrders">0</h2>
+</div>
+
+<div class="card pending-card">
+<h3>⏳ Pending</h3>
+<h2 id="pendingOrders">0</h2>
+</div>
+
+<div class="card completed-card">
+<h3>✅ Completed</h3>
+<h2 id="completedOrders">0</h2>
+</div>
+
+<div class="card sales-card">
+<h3>💰 Sales</h3>
+<h2>GH₵<span id="totalSales">0</span></h2>
+</div>
+
+<div class="card today-card">
+<h3>📅 Today</h3>
+<h2 id="todayOrders">0</h2>
+</div>
+
+<div class="card mtn-card">
+<h3>📱 MTN</h3>
+<h2 id="mtnOrders">0</h2>
+</div>
+
+<div class="card telecel-card">
+<h3>📱 Telecel</h3>
+<h2 id="telecelOrders">0</h2>
+</div>
+
+<div class="card airtel-card">
+<h3>📱 AirtelTigo</h3>
+<h2 id="airtelOrders">0</h2>
+</div>
+
+<div class="card mtn-sales-card">
+<h3>💰 MTN Sales</h3>
+<h2>GH₵<span id="mtnSales">0</span></h2>
+</div>
+
+<div class="card telecel-sales-card">
+<h3>💰 Telecel Sales</h3>
+<h2>GH₵<span id="telecelSales">0</span></h2>
+</div>
+
+<div class="card airtel-sales-card">
+<h3>💰 AirtelTigo Sales</h3>
+<h2>GH₵<span id="airtelSales">0</span></h2>
+</div>
+
+<div class="card week-card">
+<h3>📆 This Week</h3>
+<h2 id="weekOrders">0</h2>
+</div>
+
+<div class="card month-card">
+<h3>🗓️ This Month</h3>
+<h2 id="monthOrders">0</h2>
+</div>
+
+<div class="dashboard">
+
+<div class="card total">
+<h3>📦 Total Orders</h3>
+<h2 id="totalOrders">0</h2>
+</div>
+
+<div class="card pending-card">
+<h3>⏳ Pending</h3>
+<h2 id="pendingOrders">0</h2>
+</div>
+
+<div class="card completed-card">
+<h3>✅ Completed</h3>
+<h2 id="completedOrders">0</h2>
+</div>
+
+<div class="card sales-card">
+<h3>💰 Sales</h3>
+<h2 id="sales">GH₵0</h2>
+</div>
+
+</div>
+
+
+<h2>Customer Orders</h2>
+
+<div class="card network-chart-card">
+
+<h2>📊 Network Sales Chart</h2>
+
+<canvas id="salesChart"></canvas>
+
+</div>
+
+<div class="card daily-chart-card">
+
+<h2>📈 Daily Sales</h2>
+
+<canvas id="dailyChart" height="150"></canvas>
+
+</div>
+
+<h2>👥 Customer Analytics</h2>
+
+<div class="card customers-card">
+<h3>Total Customers</h3>
+<h2 id="totalCustomers">0</h2>
+</div>
+
+<div class="card repeat-card">
+<h3>Repeat Customers</h3>
+<h2 id="repeatCustomers">0</h2>
+</div>
+
+<div class="card bundle-card">
+
+<h2>🏆 Best Selling Bundles</h2>
+
+<canvas id="bundleChart" height="150"></canvas>
+
+</div>
+
+
+<div id="orders">
+Loading orders...
+</div>
+
+<style>
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+}
+
+.dashboard .card{
+background:#1e1e1e;
+padding:20px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 3px 10px rgba(0,0,0,0.3);
+}
+
+.dashboard h2{
+font-size:32px;
+margin:10px 0;
+}
+@media(max-width:600px){
+
+body{
+    padding:10px;
+}
+
+h1{
+    font-size:22px;
+    padding:15px;
+}
+
+.dashboard{
+    grid-template-columns:1fr;
+}
+
+.dashboard .card{
+    padding:15px;
+}
+
+.order{
+    padding:12px;
+}
+
+.order button{
+    width:100%;
+    margin:5px 0;
+}
+
+.network{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.network{
+    display:inline-block;
+    padding:5px 12px;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:14px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+</style>
+
+<script>
+if(localStorage.getItem("admin")!="true"){
+window.location="login.html";
+}
+
+const SUPABASE_URL = "https://vkylgfklycpeemgwjnwn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_w83Ndm_xtI_A9O11GEhK-w__TXMWyEk";
+
+async function loadOrders(filter="all"){
+console.log("Loading started");
+console.log("Fetching orders...");
+const response = await fetch(
+SUPABASE_URL + "/rest/v1/orders?select=*",
+{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY
+}
+}
+);
+if(!response.ok){
+    console.log("Supabase Error:", response.status);
+    return;
+}
+let orders = await response.json();
+
+// New order notification
+let oldOrderCount = localStorage.getItem("orderCount");
+
+if(oldOrderCount && orders.length > Number(oldOrderCount)){
+
+let newOrder = orders.sort((a,b) => 
+new Date(b.created_at) - new Date(a.created_at)
+)[0];
+
+alert(
+"🔔 New Order Received!\n\n" +
+"👤 Customer: " + newOrder.name + "\n" +
+"📱 Phone: " + newOrder.phone + "\n" +
+"📡 Network: " + newOrder.network + "\n" +
+"📦 Bundle: " + (newOrder.bundle || newOrder.amount) + "\n" +
+"💰 Price: GH₵" + newOrder.price
+);
+
+}
+
+localStorage.setItem("orderCount", orders.length);
+
+if(filter=="today"){
+orders = orders.filter(order =>
+new Date(order.created_at).toDateString() == new Date().toDateString()
+);
+}
+
+if(filter=="week"){
+let weekAgo = new Date();
+weekAgo.setDate(new Date().getDate()-7);
+
+orders = orders.filter(order =>
+new Date(order.created_at) >= weekAgo
+);
+}
+
+if(filter=="month"){
+let now = new Date();
+
+orders = orders.filter(order =>{
+let d = new Date(order.created_at);
+return d.getMonth()==now.getMonth() &&
+d.getFullYear()==now.getFullYear();
+});
+}
+
+if(orders.length > 0){
+let latest = orders[0];
+
+alert(
+"🔔 New Order Received!\n\n" +
+"👤 Customer: " + latest.name + "\n" +
+"📱 Phone: " + latest.phone + "\n" +
+"📡 Network: " + latest.network + "\n" +
+"📦 Bundle: " + latest.bundle + "\n" +
+"💰 Price: GH₵" + latest.price
+);
+}
+
+const search = document.getElementById("search").value.toLowerCase();
+console.log("Orders:", orders);
+console.log("Orders received:", orders);
+console.log(orders);
+
+let html="";
+let ordersData = orders;
+
+let total=0;
+let pending=0;
+let completed=0;
+let sales=0;
+let mtn=0;
+let telecel=0;
+let airtel=0;
+
+let mtnSales=0;
+let telecelSales=0;
+let airtelSales=0;
+
+let today=0;
+let week=0;
+let month=0;
+let customers = {};
+let repeatCustomers = 0;
+
+ordersData.forEach(order=>{
+console.log("NETWORK:", order.network);
+const network = (order.network || "").trim();
+let orderDate = new Date(order.created_at);
+let now = new Date();
+
+let todayDate = now.toDateString();
+
+if(orderDate.toDateString() == todayDate){
+customers[order.phone] = (customers[order.phone] || 0) + 1;
+
+today++;
+}
+
+let weekAgo = new Date();
+weekAgo.setDate(now.getDate()-7);
+
+if(orderDate >= weekAgo){
+week++;
+}
+
+if(
+orderDate.getMonth()==now.getMonth() &&
+orderDate.getFullYear()==now.getFullYear()
+){
+    month++;
+}
+
+const networkFilter = "";
+const name = (order.name || "").toLowerCase();
+const phone = (order.phone || "").toLowerCase();
+
+if(
+(search &&
+!name.includes(search) &&
+!phone.includes(search))
+||
+(networkFilter &&
+(order.network || "").trim() != networkFilter)
+){
+return;
+
+
+html += `
+
+<div class="card order">
+
+<h3>${order.name}</h3>
+
+<p>📱 Phone: ${order.phone}</p>
+
+<p>📡 Network:
+<span class="network ${order.network}">
+${order.network || "N/A"}
+</span>
+</p>
+
+<p>📶 Bundle: ${order.bundle || order.amount || "N/A"}</p>
+
+<p>💰 Price: GH₵${order.price || "0"}</p>
+
+<p>
+Status:
+<span class="${order.status == 'Completed' ? 'completed' : 'pending'}">
+${order.status}
+</span>
+</p>
+<button class="complete-btn" onclick="updateStatus(${order.id})">✅ Mark Completed</button>
+
+<button class="receipt-btn" onclick="printReceipt(${order.id})">🧾 Receipt</button>
+
+<button class="contact-btn" onclick="contactCustomer('${order.phone}')">💬 Contact Customer</button>
+
+<button class="delete-btn" onclick="deleteOrder(${order.id})">🗑️ Delete</button>
+</div>
+
+`;
+
+});
+
+document.getElementById("orders").innerHTML=html;
+
+document.getElementById("totalOrders").innerHTML=total;
+document.getElementById("pendingOrders").innerHTML=pending;
+document.getElementById("completedOrders").innerHTML=completed;
+document.getElementById("totalSales").innerHTML=sales;
+document.getElementById("todayOrders").innerHTML=today;
+document.getElementById("weekOrders").innerHTML=week;
+document.getElementById("monthOrders").innerHTML=month;
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Maverick Data Hub Admin</title>
+</head>
+
+<body>
+<h1>🔥 Maverick Data Hub Admin 🔥</h1>
+<p>Admin page is loading</p>
+</body>
+
+</html>
