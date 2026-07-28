@@ -601,6 +601,24 @@ h1{
     box-shadow:0 2px 6px rgba(0,0,0,0.2);
 }
 
+.verify-btn{
+    background:#28a745;
+    color:white;
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.verify-btn{
+    background:#28a745;
+    color:white;
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
 </style>
 
 <script>
@@ -836,6 +854,10 @@ ${order.proof ? `
 </a>
 ` : ""}
 
+<button class="verify-btn" onclick="verifyPayment(${order.id})">💰 Verify Payment</button>
+
+<button class="verify-btn" onclick="verifyPayment(${order.id})">💰 Verify Payment</button>
+
 <button class="delete-btn" onclick="deleteOrder(${order.id})">🗑️ Delete</button>
 </div>
 
@@ -935,6 +957,26 @@ label:"Sales (GH₵)",
 data:[mtnSales,telecelSales,airtelSales]
 }]
 }
+});
+
+}
+
+function verifyPayment(id){
+
+fetch(SUPABASE_URL + "/rest/v1/orders?id=eq." + id,{
+method:"PATCH",
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY,
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+payment_status:"Verified"
+})
+})
+.then(()=>{
+alert("Payment Verified ✅");
+loadOrders();
 });
 
 }
@@ -1152,6 +1194,26 @@ setInterval(() => {
     alert("Refreshing...");
     loadOrders();
 }, 10000);
+
+function verifyPayment(id){
+
+fetch(SUPABASE_URL + "/rest/v1/orders?id=eq." + id,{
+method:"PATCH",
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":"Bearer "+SUPABASE_KEY,
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+payment_status:"Verified"
+})
+})
+.then(()=>{
+alert("Payment Verified ✅");
+loadOrders();
+});
+
+}
 
 </script>
 </body>
