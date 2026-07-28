@@ -829,8 +829,10 @@ ${order.status}
 <button class="contact-btn" onclick="contactCustomer('${order.phone}')">💬 Contact Customer</button>
 
 ${order.proof ? `
+<img src="${order.proof}" width="120" style="border-radius:10px; margin-top:10px;">
+<br>
 <a href="${order.proof}" target="_blank">
-<button class="proof-btn">📷 View Proof</button>
+<button class="proof-btn">📷 View Full Proof</button>
 </a>
 ` : ""}
 
