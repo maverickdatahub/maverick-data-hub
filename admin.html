@@ -959,26 +959,6 @@ data:[mtnSales,telecelSales,airtelSales]
 
 }
 
-function verifyPayment(id){
-
-fetch(SUPABASE_URL + "/rest/v1/orders?id=eq." + id,{
-method:"PATCH",
-headers:{
-"apikey":SUPABASE_KEY,
-"Authorization":"Bearer "+SUPABASE_KEY,
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-payment_status:"Verified"
-})
-})
-.then(()=>{
-alert("Payment Verified ✅");
-loadOrders();
-});
-
-}
-
 async function updateStatus(id){
 
 let response = await fetch(
@@ -1206,8 +1186,34 @@ payment_status:"Verified"
 })
 })
 .then(()=>{
+
 alert("Payment Verified ✅");
+
+let order = ordersData.find(o => o.id == id);
+
+if(order){
+
+let message =
+"Hello " + order.name + ",\n\n" +
+"Your payment has been verified ✅\n\n" +
+"Your " + order.bundle + " data bundle is being processed.\n\n" +
+"Thank you for using Maverick Data Hub 🔥";
+
+let phone = order.phone;
+
+if(phone.startsWith("0")){
+phone = "233" + phone.substring(1);
+}
+
+window.open(
+"https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
+"_blank"
+);
+
+}
+
 loadOrders();
+
 });
 
 }
