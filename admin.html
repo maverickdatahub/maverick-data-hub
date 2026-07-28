@@ -856,8 +856,6 @@ ${order.proof ? `
 
 <button class="verify-btn" onclick="verifyPayment(${order.id})">💰 Verify Payment</button>
 
-<button class="verify-btn" onclick="verifyPayment(${order.id})">💰 Verify Payment</button>
-
 <button class="delete-btn" onclick="deleteOrder(${order.id})">🗑️ Delete</button>
 </div>
 
@@ -1193,8 +1191,7 @@ window.location.href =
 setInterval(() => {
     alert("Refreshing...");
     loadOrders();
-}, 10000);
-
+}, 60000);
 function verifyPayment(id){
 
 fetch(SUPABASE_URL + "/rest/v1/orders?id=eq." + id,{
