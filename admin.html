@@ -856,6 +856,8 @@ ${order.proof ? `
 
 <button class="verify-btn" onclick="verifyPayment(${order.id})">💰 Verify Payment</button>
 
+<button class="whatsapp-btn" onclick="sendWhatsApp(${order.id})">📲 Send WhatsApp</button>
+
 <button class="delete-btn" onclick="deleteOrder(${order.id})">🗑️ Delete</button>
 </div>
 
@@ -1223,6 +1225,34 @@ alert("WHATSAPP LINK: https://wa.me/" + phone + "?text=" + encodeURIComponent(me
 loadOrders();
 
 });
+
+}
+
+function sendWhatsApp(id){
+
+let order = ordersData.find(o => o.id == id);
+
+if(!order){
+alert("Order not found");
+return;
+}
+
+let message =
+"Hello " + order.name + ",\n\n" +
+"Your payment has been verified ✅\n\n" +
+"Your " + order.bundle + " data bundle is being processed.\n\n" +
+"Thank you for using Maverick Data Hub 🔥";
+
+let phone = order.phone;
+
+if(phone.startsWith("0")){
+phone = "233" + phone.substring(1);
+}
+
+window.open(
+"https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
+"_blank"
+);
 
 }
 
