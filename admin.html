@@ -1217,8 +1217,10 @@ phone = "233" + phone.substring(1);
 }
 
 
-window.location.href =
-"https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+window.open(
+  "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
+  "_blank"
+);
 
 }
 
