@@ -1230,6 +1230,8 @@ loadOrders();
 
 function sendWhatsApp(id){
 
+alert("Button clicked ID: " + id);
+
 let order = ordersData.find(o => o.id == id);
 
 if(!order){
