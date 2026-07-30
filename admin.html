@@ -1251,10 +1251,11 @@ if(phone.startsWith("0")){
 phone = "233" + phone.substring(1);
 }
 
-window.open(
-"https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
-"_blank"
-);
+let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+
+alert(url);
+
+window.open(url, "_blank");
 
 }
 
