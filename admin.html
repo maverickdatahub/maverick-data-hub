@@ -1234,6 +1234,8 @@ alert("Button clicked ID: " + id);
 
 let order = ordersData.find(o => o.id == id);
 
+alert(JSON.stringify(order));
+
 if(!order){
 alert("Order not found");
 return;
